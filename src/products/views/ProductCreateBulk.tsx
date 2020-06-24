@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { WindowTitle } from "@saleor/components/WindowTitle";
 import { DEFAULT_INITIAL_SEARCH_DATA } from "@saleor/config";
 import useNavigator from "@saleor/hooks/useNavigator";
@@ -11,9 +12,9 @@ import React from "react";
 import { useIntl } from "react-intl";
 
 import { decimal, maybe } from "../../misc";
-import ProductCreatePage, {
+import ProductCreatePageBulk, {
   ProductCreatePageSubmitData
-} from "../components/ProductCreatePage";
+} from "../components/ProductCreatePageBulk";
 import { TypedProductCreateMutation } from "../mutations";
 import { ProductCreate } from "../types/ProductCreate";
 import { productListUrl, productUrl } from "../urls";
@@ -68,36 +69,76 @@ export const ProductCreateView: React.FC = () => {
     <TypedProductCreateMutation onCompleted={handleSuccess}>
       {(productCreate, productCreateOpts) => {
         const handleSubmit = (formData: ProductCreatePageSubmitData) => {
-          productCreate({
-            variables: {
-              attributes: formData.attributes.map(attribute => ({
-                id: attribute.id,
-                values: attribute.value
-              })),
-              basePrice: decimal(formData.basePrice),
-              category: formData.category,
-              chargeTaxes: formData.chargeTaxes,
-              collections: formData.collections,
-              descriptionJson: JSON.stringify(formData.description),
-              isPublished: formData.isPublished,
-              name: formData.name,
-              productType: formData.productType,
-              publicationDate:
-                formData.publicationDate !== ""
-                  ? formData.publicationDate
-                  : null,
-              seo: {
-                description: formData.seoDescription,
-                title: formData.seoTitle
-              },
-              sku: formData.sku,
-              stocks: formData.stocks.map(stock => ({
-                quantity: parseInt(stock.value, 0),
-                warehouse: stock.id
-              })),
-              trackInventory: formData.trackInventory
+          const products = ["createme", "createme2", "createme3"];
+
+          console.log(formData);
+          if (formData) {
+            for (const p in products) {
+              console.log("productCreate", products[p]);
             }
-          });
+          }
+
+          console.log(decimal, productCreate);
+
+          // productCreate({
+          //   variables: {
+          //     attributes: formData.attributes.map(attribute => ({
+          //       id: attribute.id,
+          //       values: attribute.value
+          //     })),
+          //     basePrice: decimal(formData.basePrice),
+          //     category: formData.category,
+          //     chargeTaxes: formData.chargeTaxes,productCreate({
+          //   variables: {
+          //     attributes: formData.attributes.map(attribute => ({
+          //       id: attribute.id,
+          //       values: attribute.value
+          //     })),
+          //     basePrice: decimal(formData.basePrice),
+          //     category: formData.category,
+          //     chargeTaxes: formData.chargeTaxes,
+          //     collections: formData.collections,
+          //     descriptionJson: JSON.stringify(formData.description),
+          //     isPublished: formData.isPublished,
+          //     name: formData.name,
+          //     productType: formData.productType,
+          //     publicationDate:
+          //       formData.publicationDate !== ""
+          //         ? formData.publicationDate
+          //         : null,
+          //     seo: {
+          //       description: formData.seoDescription,
+          //       title: formData.seoTitle
+          //     },
+          //     sku: formData.sku,
+          //     stocks: formData.stocks.map(stock => ({
+          //       quantity: parseInt(stock.value, 0),
+          //       warehouse: stock.id
+          //     })),
+          //     trackInventory: formData.trackInventory
+          //   }
+          // });
+          //     collections: formData.collections,
+          //     descriptionJson: JSON.stringify(formData.description),
+          //     isPublished: formData.isPublished,
+          //     name: formData.name,
+          //     productType: formData.productType,
+          //     publicationDate:
+          //       formData.publicationDate !== ""
+          //         ? formData.publicationDate
+          //         : null,
+          //     seo: {
+          //       description: formData.seoDescription,
+          //       title: formData.seoTitle
+          //     },
+          //     sku: formData.sku,
+          //     stocks: formData.stocks.map(stock => ({
+          //       quantity: parseInt(stock.value, 0),
+          //       warehouse: stock.id
+          //     })),
+          //     trackInventory: formData.trackInventory
+          //   }
+          // });
         };
 
         return (
@@ -108,7 +149,8 @@ export const ProductCreateView: React.FC = () => {
                 description: "window title"
               })}
             />
-            <ProductCreatePage
+
+            <ProductCreatePageBulk
               currency={maybe(() => shop.defaultCurrency)}
               categories={maybe(
                 () => searchCategoryOpts.data.search.edges,
